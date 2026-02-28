@@ -1,0 +1,186 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def allureVersion = '2.24.0'
+def aspectJVersion = '1.9.20.1'
+
+dependencies {
+    // Selenium
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.18.1'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.7.0'
+
+    // Cucumber
+    testImplementation 'io.cucumber:cucumber-java:7.8.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.8.1'
+    testImplementation 'io.cucumber:cucumber-testng:7.8.1'
+
+    // TestNG
+    testImplementation 'org.testng:testng:7.9.0'
+
+    // Rest Assured
+    testImplementation 'io.rest-assured:rest-assured:5.4.0'
+    testImplementation 'io.rest-assured:json-path:5.4.0'
+    testImplementation 'io.rest-assured:xml-path:5.4.0'
+    testImplementation 'io.rest-assured:json-schema-validator:5.4.0'
+
+    // Hamcrest
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+
+    // Allure - Single consistent version
+    testImplementation "io.qameta.allure:allure-testng:${allureVersion}"
+    testImplementation "io.qameta.allure:allure-rest-assured:${allureVersion}"
+    testImplementation "io.qameta.allure:allure-cucumber7-jvm:${allureVersion}"
+
+    // AspectJ for Allure
+    testImplementation "org.aspectj:aspectjweaver:${aspectJVersion}"
+}
+
+// Allure configuration
+allure {
+    version = allureVersion
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+def tags = (findProperty('tags') == null) ? 'not @exclude' : findProperty('tags') + ' and not @exclude'
+
+task cucumber(type: JavaExec) {
+    description = "Running Cucumber Test"
+    group = "verification"
+
+    dependsOn assemble, compileTestJava
+
+    mainClass = "io.cucumber.core.cli.Main"
+
+    classpath = configurations.cucumberRuntime +
+            sourceSets.main.output +
+            sourceSets.test.output
+
+    args = [
+            '--plugin', 'pretty',
+            '--plugin', 'html:build/reports/cucumber/index.html',
+            '--plugin', "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+            '--glue', 'com.febrio',
+            '--tags', tags,
+            'src/test/resources'
+    ]
+
+    environment 'allure.results.directory', 'build/allure-results'
+}
+
+task runWebTests(type: JavaExec) {
+    description = "Running Web UI Tests with @web tag"
+    group = "verification"
+
+    dependsOn assemble, compileTestJava
+
+    mainClass = "io.cucumber.core.cli.Main"
+
+    classpath = configurations.cucumberRuntime +
+            sourceSets.main.output +
+            sourceSets.test.output
+
+    args = [
+            '--plugin', 'pretty',
+            '--plugin', 'html:build/reports/cucumber/index.html',
+            '--plugin', "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+            '--glue', 'com.febrio',
+            '--tags', '@web',
+            'src/test/resources'
+    ]
+
+    environment 'allure.results.directory', 'build/allure-results'
+}
+
+task runAllTests(type: Test) {
+    description = "Running All Tests"
+    group = "verification"
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+    }
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+}
+
+task runApiTests(type: Test) {
+    description = "Running API Tests"
+    group = "verification"
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+        includeGroups 'api'
+    }
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+}
+
+// Configure all test tasks to work with Allure
+tasks.withType(Test) {
+    useTestNG()
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        showExceptions = true
+        showCauses = true
+    }
+
+    systemProperty 'allure.results.directory', 'build/allure-results'
+
+    jvmArgs = ["-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"]
+}
+
+// Custom task to generate Allure report
+task generateAllureReport(type: Exec) {
+    description = 'Generate Allure HTML report'
+    group = 'reporting'
+
+    commandLine 'allure', 'generate', 'build/allure-results', '-o', 'build/allure-report', '--clean'
+
+    doFirst {
+        if (!file('build/allure-results').exists()) {
+            println "No Allure results found. Run tests first with: ./gradlew test"
+        }
+    }
+}
+
+// Custom task to serve Allure report
+task serveAllureReport(type: Exec) {
+    description = 'Serve Allure HTML report'
+    group = 'reporting'
+
+    commandLine 'allure', 'serve', 'build/allure-results'
+
+    doFirst {
+        if (!file('build/allure-results').exists()) {
+            println "No Allure results found. Run tests first with: ./gradlew test"
+        }
+    }
+}
+
+// Task to run tests and generate report
+task runTestsAndGenerateReport {
+    description = 'Run all tests and generate Allure report'
+    group = 'verification'
+    dependsOn 'test', 'generateAllureReport'
+}

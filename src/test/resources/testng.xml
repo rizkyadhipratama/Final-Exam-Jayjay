@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="Test Automation Suite">
+    <test name="API Tests">
+        <groups>
+            <run>
+                <include name="api"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.febrio.APITest"/>
+        </classes>
+    </test>
+    <test name="Web UI Tests">
+        <classes>
+            <class name="com.febrio.CucumberTest"/>
+        </classes>
+    </test>
+</suite>
