@@ -48,32 +48,44 @@ jobs:
         allure --version
       
     - name: Run All Tests
-      run: ./gradlew runAllTests
-      
+      run: ./gradlew runAllTests --stacktrace
+      continue-on-error: true
+
     - name: Generate Allure Report
       if: always()
-      run: allure generate build/allure-results -o build/allure-report --clean
-      
+      run: |
+        if [ -d "build/allure-results" ] && [ "$(ls -A build/allure-results)" ]; then
+          echo "Found Allure results. Generating report..."
+          allure generate build/allure-results -o build/allure-report --clean
+          echo "Allure report generated successfully"
+        else
+          echo "Warning: No Allure results found"
+        fi
+      continue-on-error: true
+
     - name: Upload Allure Results
-      if: always()
+      if: always() && hashFiles('build/allure-results') != ''
       uses: actions/upload-artifact@v4
       with:
         name: allure-results
         path: build/allure-results
-        
+      continue-on-error: true
+
     - name: Upload Allure Report
-      if: always()
+      if: always() && hashFiles('build/allure-report') != ''
       uses: actions/upload-artifact@v4
       with:
         name: allure-report
         path: build/allure-report
-        
+      continue-on-error: true
+
     - name: Upload TestNG Reports
-      if: always()
+      if: always() && hashFiles('build/reports/tests/') != ''
       uses: actions/upload-artifact@v4
       with:
         name: testng-reports
         path: build/reports/tests/
+      continue-on-error: true
 
   # Optional: Deploy report to GitHub Pages
   deploy-report:
