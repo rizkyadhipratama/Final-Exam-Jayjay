@@ -91,20 +91,35 @@ jobs:
   deploy-report:
     needs: test
     runs-on: ubuntu-latest
-    if: always() && github.ref == 'refs/heads/main'
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: write
-    
+      pages: write
+      id-token: write
+
     steps:
     - name: Download Allure Report
       uses: actions/download-artifact@v4
       with:
         name: allure-report
         path: allure-report
-        
+      continue-on-error: true
+
+    - name: Check if Allure Report exists
+      run: |
+        if [ -d "allure-report" ] && [ "$(ls -A allure-report)" ]; then
+          echo "Allure report found. Ready to deploy."
+          exit 0
+        else
+          echo "Warning: Allure report directory is empty or missing."
+          exit 0
+        fi
+
     - name: Deploy to GitHub Pages
+      if: hashFiles('allure-report') != ''
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./allure-report
         destination_dir: allure-report
+        enable_jekyll: false
