@@ -1,5 +1,5 @@
 "Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
-"","Login","Login with valid username and password","0","0","1","0","0"
-"","Login","Login with invalid username and password","0","0","1","0","0"
 "","Checkout Process","User selects Samsung Galaxy S6 and completes checkout","0","0","1","0","0"
+"","Login","Login with invalid username and password","0","0","1","0","0"
+"","Login","Login with valid username and password","0","0","1","0","0"
 "","Sign Up","New User Sign Up","0","0","1","0","0"
