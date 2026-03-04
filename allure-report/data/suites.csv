@@ -1,7 +1,7 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Mar 04 13:24:09 UTC 2026","Wed Mar 04 13:24:09 UTC 2026","49","","Checkout Process","","User selects Samsung Galaxy S6 and completes checkout","","User selects Samsung Galaxy S6 and completes checkout","  As a user
+"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","5","","Login","","Login with invalid username and password","","Login with invalid username and password",""
+"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","50","","Checkout Process","","User selects Samsung Galaxy S6 and completes checkout","","User selects Samsung Galaxy S6 and completes checkout","  As a user
   I want to select a specific product and complete the checkout process
   So that I can purchase the product"
-"passed","Wed Mar 04 13:24:09 UTC 2026","Wed Mar 04 13:24:09 UTC 2026","6","","Login","","Login with invalid username and password","","Login with invalid username and password",""
-"passed","Wed Mar 04 13:24:09 UTC 2026","Wed Mar 04 13:24:09 UTC 2026","13","","Login","","Login with valid username and password","","Login with valid username and password",""
-"passed","Wed Mar 04 13:24:09 UTC 2026","Wed Mar 04 13:24:09 UTC 2026","9","","Sign Up","","New User Sign Up","","New User Sign Up",""
+"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","9","","Sign Up","","New User Sign Up","","New User Sign Up",""
+"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","12","","Login","","Login with valid username and password","","Login with valid username and password",""
