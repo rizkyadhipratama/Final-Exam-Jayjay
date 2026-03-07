@@ -1,7 +1,7 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","5","","Login","","Login with invalid username and password","","Login with invalid username and password",""
-"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","50","","Checkout Process","","User selects Samsung Galaxy S6 and completes checkout","","User selects Samsung Galaxy S6 and completes checkout","  As a user
-  I want to select a specific product and complete the checkout process
-  So that I can purchase the product"
-"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","9","","Sign Up","","New User Sign Up","","New User Sign Up",""
-"passed","Wed Mar 04 13:38:23 UTC 2026","Wed Mar 04 13:38:23 UTC 2026","12","","Login","","Login with valid username and password","","Login with valid username and password",""
+"passed","Sat Mar 07 10:27:26 UTC 2026","Sat Mar 07 10:27:26 UTC 2026","172","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","getUserTest","getUserTest","This is test for get all user data"
+"failed","Sat Mar 07 10:27:26 UTC 2026","Sat Mar 07 10:27:26 UTC 2026","257","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","updateUserDataTest","updateUserDataTest","This is test for update specific user data by ID"
+"failed","Sat Mar 07 10:27:23 UTC 2026","Sat Mar 07 10:27:25 UTC 2026","2246","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","createUserTest","createUserTest","This is test for create new user data"
+"failed","Sat Mar 07 10:27:25 UTC 2026","Sat Mar 07 10:27:26 UTC 2026","188","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","deleteUserDataTest","deleteUserDataTest","This is test for delete specific user data by ID"
+"passed","Sat Mar 07 10:27:26 UTC 2026","Sat Mar 07 10:27:26 UTC 2026","57","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","verificationDelete","verificationDelete","This is verification test for delete specific user data by ID"
+"failed","Sat Mar 07 10:27:26 UTC 2026","Sat Mar 07 10:27:26 UTC 2026","173","Test Automation Suite","API Tests","com.febrio.APITest","com.febrio.APITest","getSpecificUserTest","getSpecificUserTest","This is test for get specific user data by user ID"
