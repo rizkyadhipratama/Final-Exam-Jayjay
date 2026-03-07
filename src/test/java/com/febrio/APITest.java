@@ -19,7 +19,7 @@ public class APITest {
     private static final Logger log = LoggerFactory.getLogger(APITest.class);
     String baseURI = "https://dummyapi.io/data/v1/";
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Get Test")
     @Story("Get All User Data")
     @Description("This is test for get all user data")
@@ -39,14 +39,14 @@ public class APITest {
                     .log().all()
                     .assertThat().statusCode(200);
 
-            attachResponse(responses.getBody().asString());
-            attachStatusCode(responses.getStatusCode());
+//            attachResponse(responses.getBody().asString());
+//            attachStatusCode(responses.getStatusCode());
         } catch (Exception e) {
             log.error("e: ", e);
         }
     }
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Get Test")
     @Story("Get Specific User Data")
     @Description("This is test for get specific user data by user ID")
@@ -71,7 +71,7 @@ public class APITest {
                 .assertThat().statusCode(200);
     }
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Post Test")
     @Story("Create New User Data")
     @Description("This is test for create new user data")
@@ -110,7 +110,7 @@ public class APITest {
 
     }
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Put Test")
     @Story("Update Specific User Data")
     @Description("This is test for update specific user data by ID")
@@ -144,7 +144,7 @@ public class APITest {
                 .assertThat().statusCode(200);
     }
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Delete Test")
     @Story("Delete Specific User Data")
     @Description("This is test for delete specific user data by ID")
@@ -170,7 +170,7 @@ public class APITest {
 
     }
 
-    @Test(groups = {"@api"})
+    @Test(groups = {"api"})
     @Epic("Verification Delete Test")
     @Story("Verification After Delete Specific User Data")
     @Description("This is verification test for delete specific user data by ID")

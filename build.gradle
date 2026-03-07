@@ -1,10 +1,15 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.2'
+    id 'io.qameta.allure' version '3.0.2'
 }
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
+
+// Disable default test task
+test {
+    enabled = false
+}
 
 repositories {
     mavenCentral()
@@ -103,6 +108,7 @@ task runWebTests(type: JavaExec) {
     ]
 
     environment 'allure.results.directory', 'build/allure-results'
+
 }
 
 task runAllTests(type: Test) {
@@ -139,75 +145,17 @@ task runApiTests(type: Test) {
 
     useTestNG {
         suites "src/test/resources/testng.xml"
-        includeGroups 'api'
     }
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"
         showStackTraces true
         showCauses true
     }
-
-    systemProperty 'allure.results.directory', 'build/allure-results'
-
-    // Configure AspectJ weaver for Allure
-    def aspectjWeaver = configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }
-    if (aspectjWeaver) {
-        jvmArgs = ["-javaagent:${aspectjWeaver}"]
-    }
 }
 
-// Configure all test tasks to work with Allure
-tasks.withType(Test) {
-    useTestNG()
-    testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
-        showExceptions = true
-        showCauses = true
-        showStackTraces = true
-    }
-
-    systemProperty 'allure.results.directory', 'build/allure-results'
-
-    // Configure AspectJ weaver for Allure
-    doFirst {
-        def aspectjWeaver = configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }
-        if (aspectjWeaver) {
-            jvmArgs = ["-javaagent:${aspectjWeaver}"]
-        }
-    }
-}
-
-// Custom task to generate Allure report
-task generateAllureReport(type: Exec) {
-    description = 'Generate Allure HTML report'
-    group = 'reporting'
-
-    commandLine 'allure', 'generate', 'build/allure-results', '-o', 'build/allure-report', '--clean'
-
-    doFirst {
-        if (!file('build/allure-results').exists()) {
-            println "No Allure results found. Run tests first with: ./gradlew test"
-        }
-    }
-}
-
-// Custom task to serve Allure report
-task serveAllureReport(type: Exec) {
-    description = 'Serve Allure HTML report'
-    group = 'reporting'
-
-    commandLine 'allure', 'serve', 'build/allure-results'
-
-    doFirst {
-        if (!file('build/allure-results').exists()) {
-            println "No Allure results found. Run tests first with: ./gradlew test"
-        }
-    }
-}
-
-// Task to run tests and generate report
-task runTestsAndGenerateReport {
-    description = 'Run all tests and generate Allure report'
+// Task to run both API and Web tests and generate Allure report
+task runApiAndWebTestsWithReport {
+    description = 'Run both API and Web tests and generate Allure report'
     group = 'verification'
-    dependsOn 'test', 'generateAllureReport'
+    dependsOn 'runApiTests', 'cucumber', 'allureReport'
 }
