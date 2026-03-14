@@ -63,30 +63,6 @@ jobs:
         fi
       continue-on-error: true
 
-    - name: Upload Allure Results
-      if: always() && hashFiles('build/allure-results') != ''
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-results
-        path: build/allure-results
-      continue-on-error: true
-
-    - name: Upload Allure Report
-      if: always() && hashFiles('build/allure-report') != ''
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-report
-        path: build/allure-report
-      continue-on-error: true
-
-    - name: Upload TestNG Reports
-      if: always() && hashFiles('build/reports/tests/') != ''
-      uses: actions/upload-artifact@v4
-      with:
-        name: testng-reports
-        path: build/reports/tests/
-      continue-on-error: true
-
   # Optional: Deploy report to GitHub Pages
   deploy-report:
     needs: test
