@@ -151,6 +151,13 @@ task runApiTests(type: Test) {
         showStackTraces true
         showCauses true
     }
+
+    systemProperty 'allure.results.directory', 'build/allure-results'
+
+    def aspectjWeaver = configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }
+    if (aspectjWeaver) {
+        jvmArgs = ["-javaagent:${aspectjWeaver}"]
+    }
 }
 
 // Task to run both API and Web tests and generate Allure report

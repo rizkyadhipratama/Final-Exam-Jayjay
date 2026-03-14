@@ -119,7 +119,7 @@ jobs:
       if: hashFiles('allure-report') != ''
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_dir: ./allure-report
         destination_dir: allure-report
         enable_jekyll: false

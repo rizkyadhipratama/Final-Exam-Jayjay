@@ -1,0 +1,13 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"This is test for update specific user data by ID","542","updateUserDataTest","Test Automation Suite","2026-03-14","failed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","updateUserDataTest"
+"This is test for get specific user data by user ID","342","getSpecificUserTest","Test Automation Suite","2026-03-14","failed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","getSpecificUserTest"
+"This is test for delete specific user data by ID","446","deleteUserDataTest","Test Automation Suite","2026-03-14","failed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","deleteUserDataTest"
+"","32578","Login with valid username and password","","2026-03-07","passed","2026-03-07","","Login","Login with valid username and password",""
+"This is verification test for delete specific user data by ID","86","verificationDelete","Test Automation Suite","2026-03-14","passed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","verificationDelete"
+"  As a user
+  I want to select a specific product and complete the checkout process
+  So that I can purchase the product","15150","User selects Samsung Galaxy S6 and completes checkout","","2026-03-07","passed","2026-03-07","","Checkout Process","User selects Samsung Galaxy S6 and completes checkout",""
+"This is test for create new user data","4773","createUserTest","Test Automation Suite","2026-03-14","failed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","createUserTest"
+"","4909","New User Sign Up","","2026-03-07","passed","2026-03-07","","Sign Up","New User Sign Up",""
+"This is test for get all user data","365","getUserTest","Test Automation Suite","2026-03-14","passed","2026-03-14","com.febrio.APITest","API Tests","com.febrio.APITest","getUserTest"
+"","2984","Login with invalid username and password","","2026-03-07","passed","2026-03-07","","Login","Login with invalid username and password",""
