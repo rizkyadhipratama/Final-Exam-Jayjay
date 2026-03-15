@@ -41,9 +41,11 @@ jobs:
 
       - name: Clean previous Allure results
         run: |
+          rm -rf allure-report
           rm -rf build/allure-results
           rm -rf build/reports/allure-report
           mkdir -p build/allure-results
+          mkdir -p allure-report
 
       - name: Run Tests
         run: ./gradlew runAllTests --stacktrace
@@ -51,7 +53,7 @@ jobs:
 
       - name: Generate Allure Report
         if: always()
-        run: ./gradlew allureReport --stacktrace
+        run: allure generate build/allure-results --clean -o allure-report
         continue-on-error: true
 
       - name: Debug — check report directory

@@ -84,7 +84,7 @@ public class APITest {
                                 {
                                 	"firstName" : "Allure",
                                     "lastName" : "User",
-                                    "email" : "allure00999@gmail.com"
+                                    "email" : "allure1999@gmail.com"
                                 }
                         """;
 
