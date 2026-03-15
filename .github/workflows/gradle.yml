@@ -39,38 +39,29 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Install Allure CLI
-        run: |
-          wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
-          tar -zxvf allure-2.24.0.tgz
-          sudo mv allure-2.24.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
-          allure --version
-
-      - name: Run All Tests
+      - name: Run Tests
         run: ./gradlew runAllTests --stacktrace
         continue-on-error: true
 
       - name: Generate Allure Report
         if: always()
-        run: |
-          if [ -d "build/allure-results" ] && [ "$(ls -A build/allure-results)" ]; then
-            echo "Found Allure results, generating report..."
-            allure generate build/allure-results -o build/allure-report --clean
-          else
-            echo "No Allure results found — creating placeholder"
-            mkdir -p build/allure-report
-            echo "<h1>No test results found</h1>" > build/allure-report/index.html
-          fi
+        run: ./gradlew allureReport --stacktrace
         continue-on-error: true
 
-      # ✅ FIX #1: Upload the report so deploy-report job can access it
+      - name: Debug — check report directory
+        if: always()
+        run: |
+          echo "=== build/allure-results ==="
+          ls build/allure-results || echo "allure-results not found"
+          echo "=== build/reports/allure-report ==="
+          ls -R build/reports/allure-report || echo "allure-report not found"
+
       - name: Upload Allure Report as Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: build/allure-report
+          path: build/reports/allure-report/allureReport
           retention-days: 7
 
   deploy-report:
@@ -87,9 +78,14 @@ jobs:
           name: allure-report
           path: allure-report
 
+      - name: Debug — check downloaded artifact
+        run: |
+          echo "=== Downloaded artifact contents ==="
+          ls -R allure-report || echo "Nothing downloaded"
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # ✅ FIX #2: use built-in token
-          publish_dir: ./allure-report               # ✅ FIX #3: removed destination_dir
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
           enable_jekyll: false
