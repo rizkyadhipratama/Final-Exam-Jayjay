@@ -84,7 +84,7 @@ public class APITest {
                                 {
                                 	"firstName" : "Allure",
                                     "lastName" : "User",
-                                    "email" : "allure0099@gmail.com"
+                                    "email" : "allure00999@gmail.com"
                                 }
                         """;
 
@@ -159,7 +159,7 @@ public class APITest {
                     .header("User-Agent", "Mozilla/5.0")
                     .header("Accept", "application/json")
                     .when()
-                    .delete("user/60d0fe4f5311236168a10a0d");
+                    .delete("user/60d0fe4f5311236168a10a0e");
 
             response.then()
                     .log().all()
