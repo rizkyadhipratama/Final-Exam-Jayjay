@@ -39,6 +39,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Clean previous Allure results
+        run: |
+          rm -rf build/allure-results
+          rm -rf build/reports/allure-report
+          mkdir -p build/allure-results
+
       - name: Run Tests
         run: ./gradlew runAllTests --stacktrace
         continue-on-error: true

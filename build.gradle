@@ -117,27 +117,12 @@ task runWebTests(type: JavaExec) {
 
 }
 
-task runAllTests(type: Test) {
-    description = "Running All Tests"
+task runAllTests {
+    description = "Running All Tests (API + Web UI)"
     group = "verification"
 
-    testClassesDirs = sourceSets.test.output.classesDirs
-    classpath = sourceSets.test.runtimeClasspath
-
-    useTestNG {
-        suites "src/test/resources/testng.xml"
-    }
-    testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
-        showStackTraces true
-        showCauses true
-    }
-
-    systemProperty 'allure.results.directory', 'build/allure-results'
-
-    jvmArgs = ["-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"]
+    dependsOn 'runApiTests', 'runWebTests'
     finalizedBy 'allureReport'
-
 }
 
 task runApiTests(type: Test) {
@@ -159,6 +144,8 @@ task runApiTests(type: Test) {
     systemProperty 'allure.results.directory', 'build/allure-results'
 
     jvmArgs = ["-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"]
+    ignoreFailures = true //continue the build even if the test is failed
+
 }
 
 // Task to run both API and Web tests and generate Allure report
