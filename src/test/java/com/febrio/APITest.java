@@ -58,7 +58,7 @@ public class APITest {
                 .header("app-id", "63a804408eb0cb069b57e43a")
                 .header("User-Agent", "Mozilla/5.0")
                 .header("Accept", "application/json")
-                .get("user/69947dec12957160642bdcb1");
+                .get("user/60d0fe4f5311236168a109f3");
 
         System.out.println("\n=== GET SPECIFIC USER TEST ===");
         System.out.println("Status Code: " + response.getStatusCode());
@@ -82,9 +82,9 @@ public class APITest {
         String requestBody =
                 """
                                 {
-                                	"firstName" : "Secret",
+                                	"firstName" : "Allure",
                                     "lastName" : "User",
-                                    "email" : "fufufafa@gmail.com"
+                                    "email" : "allure0099@gmail.com"
                                 }
                         """;
 
@@ -131,7 +131,7 @@ public class APITest {
                 .header("Accept", "application/json")
                 .body(requestBody)
                 .when()
-                .put("user/69947dec12957160642bdcb1");
+                .put("user/60d0fe4f5311236168a109f3");
 
         System.out.println("\n=== UPDATE USER TEST ===");
         System.out.println("Status Code: " + response.getStatusCode());
@@ -159,7 +159,7 @@ public class APITest {
                     .header("User-Agent", "Mozilla/5.0")
                     .header("Accept", "application/json")
                     .when()
-                    .delete("user/69947dec12957160642bdcb1");
+                    .delete("user/60d0fe4f5311236168a10a0d");
 
             response.then()
                     .log().all()
@@ -185,7 +185,7 @@ public class APITest {
                     .header("User-Agent", "Mozilla/5.0")
                     .header("Accept", "application/json")
                     .when()
-                    .get("user/69947dec12957160642bdcb1");
+                    .get("user/60d0fe4f5311236168a10a0d");
 
             responseAfterDelete.then()
                     .log().all()

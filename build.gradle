@@ -50,8 +50,14 @@ dependencies {
 }
 
 // Allure configuration
+// Remove or leave allure block as-is:
 allure {
     version = allureVersion
+}
+
+// Add this separately:
+tasks.named('allureReport') {
+    clean = true
 }
 
 configurations {
@@ -129,11 +135,9 @@ task runAllTests(type: Test) {
 
     systemProperty 'allure.results.directory', 'build/allure-results'
 
-    // Configure AspectJ weaver for Allure
-    def aspectjWeaver = configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }
-    if (aspectjWeaver) {
-        jvmArgs = ["-javaagent:${aspectjWeaver}"]
-    }
+    jvmArgs = ["-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"]
+    finalizedBy 'allureReport'
+
 }
 
 task runApiTests(type: Test) {
@@ -154,10 +158,7 @@ task runApiTests(type: Test) {
 
     systemProperty 'allure.results.directory', 'build/allure-results'
 
-    def aspectjWeaver = configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }
-    if (aspectjWeaver) {
-        jvmArgs = ["-javaagent:${aspectjWeaver}"]
-    }
+    jvmArgs = ["-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains('aspectjweaver') }}"]
 }
 
 // Task to run both API and Web tests and generate Allure report
